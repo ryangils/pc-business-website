@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact — CyberForge PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span><span>Contact</span>
+      </div>
+      <h1>Get in <span class="gradient-text">Touch</span></h1>
+      <p>Have a question, want a custom build quote, or need repair advice? We're here to help.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-layout">
+
+        <!-- LEFT: Info -->
+        <div class="contact-info fade-in">
+          <h2>Let's <span class="gradient-text">Talk</span></h2>
+          <p>
+            We reply to all enquiries within 2–4 hours during business hours.
+            For urgent repair bookings, give us a call or use the
+            <a href="booking.html">booking form</a>.
+          </p>
+
+          <div class="contact-items">
+            <div class="contact-item">
+              <div class="contact-item-icon">📧</div>
+              <div>
+                <h4>Email</h4>
+                <p>hello@cyberforgepc.co.uk</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">📞</div>
+              <div>
+                <h4>Phone</h4>
+                <p>+44 (0) 1234 567 890</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">🕐</div>
+              <div>
+                <h4>Business Hours</h4>
+                <p>Mon–Fri: 9am–6pm · Sat: 10am–4pm</p>
+              </div>
+            </div>
+            <div class="contact-item">
+              <div class="contact-item-icon">📍</div>
+              <div>
+                <h4>Location</h4>
+                <p>Manchester, United Kingdom</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Map placeholder -->
+          <div class="map-placeholder">
+            <span>🗺️</span>
+            <span>Manchester, UK</span>
+          </div>
+        </div>
+
+        <!-- RIGHT: Form -->
+        <div class="fade-in">
+          <div class="form-card" style="max-width:none;">
+            <h2 style="font-size:1.4rem;margin-bottom:0.5rem;">Send a Message</h2>
+            <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:2rem;">
+              We'll get back to you within 24 hours.
+            </p>
+
+            <form id="contact-form">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="contact-name">Full Name <span class="required">*</span></label>
+                  <input type="text" id="contact-name" name="name" class="form-control"
+                    placeholder="Ryan Gils" required />
+                </div>
+                <div class="form-group">
+                  <label for="contact-email">Email Address <span class="required">*</span></label>
+                  <input type="email" id="contact-email" name="email" class="form-control"
+                    placeholder="ryan@example.com" required />
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-subject">Subject <span class="required">*</span></label>
+                <select id="contact-subject" name="subject" class="form-control" required>
+                  <option value="" disabled selected>What's this about?</option>
+                  <option value="custom-build">Custom Build Enquiry</option>
+                  <option value="repair">Repair / Diagnostics</option>
+                  <option value="order">Order Support</option>
+                  <option value="product">Product Question</option>
+                  <option value="other">Other</option>
+                </select>
+              </div>
+
+              <div class="form-group">
+                <label for="contact-message">Message <span class="required">*</span></label>
+                <textarea id="contact-message" name="message" class="form-control" rows="6"
+                  placeholder="Tell us what you need…" required></textarea>
+              </div>
+
+              <button type="submit" class="btn btn-primary btn-full btn-lg" data-label="✉️ Send Message">
+                ✉️ Send Message
+              </button>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text"><span class="logo-icon">⚡</span><span>CyberForge<span class="logo-accent">PC</span></span></div>
+        <p>Building tomorrow's machines today.</p>
+      </div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="shop.html">Custom PCs</a></li><li><a href="cases.html">PC Cases</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="repairs.html">Repairs</a></li><li><a href="booking.html">Book a Repair</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 CyberForge PC. All rights reserved.</span></div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>

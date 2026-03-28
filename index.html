@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CyberForge PC — Custom PCs, Cases & Repairs</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ======== PAGE WRAPPER ======== -->
+<div class="page-wrapper">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <div class="hero-badge">⚡ Premium Custom PC Builders Since 2019</div>
+        <h1>
+          Build Your<br />
+          <span class="gradient-text">Dream Machine.</span>
+        </h1>
+        <p>
+          High-performance custom PCs, premium cases, and expert repair
+          services — engineered for gamers, creators, and professionals.
+        </p>
+        <div class="hero-cta">
+          <a href="shop.html" class="btn btn-primary btn-lg">🖥️ Shop PCs</a>
+          <a href="cases.html" class="btn btn-secondary btn-lg">📦 PC Cases</a>
+          <a href="repairs.html" class="btn btn-purple btn-lg">🔧 Repair Services</a>
+        </div>
+        <div class="hero-stats">
+          <div class="stat-item">
+            <h3>500+</h3>
+            <p>Builds Completed</p>
+          </div>
+          <div class="stat-item">
+            <h3>4.9★</h3>
+            <p>Avg. Rating</p>
+          </div>
+          <div class="stat-item">
+            <h3>5yr</h3>
+            <p>Experience</p>
+          </div>
+          <div class="stat-item">
+            <h3>48hr</h3>
+            <p>Avg. Turnaround</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Floating visual -->
+    <div class="hero-visual" aria-hidden="true">
+      <div class="hero-pc-card hero-pc-main">
+        <span class="hero-pc-icon">🖥️</span>
+        <span class="hero-pc-name">Titan Pro X</span>
+        <span class="hero-pc-price">$2,499</span>
+      </div>
+      <div class="floating-tag ft-1">RTX 4090 ⚡</div>
+      <div class="floating-tag ft-2">32GB DDR5 RAM</div>
+      <div class="floating-tag ft-3">Windows 11 Pro</div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2 class="gradient-text">Featured Builds</h2>
+        <p>Our most popular custom PCs, hand-picked for performance and value.</p>
+      </div>
+      <div class="featured-grid" id="featured-grid"></div>
+      <div class="text-center mt-4">
+        <a href="shop.html" class="btn btn-secondary btn-lg">View All PCs →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- PC CASES PREVIEW -->
+  <section class="section" style="background: var(--bg-surface);">
+    <div class="container">
+      <div class="section-header">
+        <h2>Premium <span class="gradient-text">PC Cases</span></h2>
+        <p>Tempered glass, full towers, mini-ITX — cases for every build and style.</p>
+      </div>
+      <div class="featured-grid" id="cases-preview-grid"></div>
+      <div class="text-center mt-4">
+        <a href="cases.html" class="btn btn-secondary btn-lg">Browse All Cases →</a>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- WHY CHOOSE US -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header">
+        <h2>Why Choose <span class="gradient-text">CyberForge</span>?</h2>
+        <p>We're not just a store — we're builders who care about every single cable.</p>
+      </div>
+      <div class="why-grid">
+        <div class="why-card fade-in">
+          <span class="why-icon">🏆</span>
+          <h3>5-Year Experience</h3>
+          <p>500+ successful builds with zero compromises on quality or cable management.</p>
+        </div>
+        <div class="why-card fade-in">
+          <span class="why-icon">🔒</span>
+          <h3>3-Year Warranty</h3>
+          <p>Every custom PC comes with a 3-year parts and labour warranty. Peace of mind included.</p>
+        </div>
+        <div class="why-card fade-in">
+          <span class="why-icon">⚡</span>
+          <h3>Fast Delivery</h3>
+          <p>Most builds ship within 48 hours. Express same-day assembly available on request.</p>
+        </div>
+        <div class="why-card fade-in">
+          <span class="why-icon">🛠️</span>
+          <h3>Expert Support</h3>
+          <p>Real humans, not bots. Get help from the same engineers who built your PC.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REPAIRS CTA STRIP -->
+  <section class="section" style="background: var(--bg-surface); padding: 3rem 0;">
+    <div class="container">
+      <div class="cta-banner">
+        <h2>PC Not <span class="gradient-text">Running Right?</span></h2>
+        <p>From virus removal to liquid cooling upgrades — our experts fix it fast.</p>
+        <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+          <a href="repairs.html" class="btn btn-primary btn-lg">🔧 View Services</a>
+          <a href="booking.html" class="btn btn-secondary btn-lg">📅 Book a Repair</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /page-wrapper -->
+
+<!-- ======== FOOTER ======== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">
+          <span class="logo-icon">⚡</span>
+          <span>CyberForge<span class="logo-accent">PC</span></span>
+        </div>
+        <p>Building tomorrow's machines today. Custom PCs, premium cases, and expert repair services for gamers and professionals.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="shop.html">Custom PCs</a></li>
+          <li><a href="shop.html">Prebuilt PCs</a></li>
+          <li><a href="cases.html">PC Cases</a></li>
+          <li><a href="repairs.html">Upgrades</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="repairs.html">Diagnostics</a></li>
+          <li><a href="repairs.html">Virus Removal</a></li>
+          <li><a href="repairs.html">Cooling Fixes</a></li>
+          <li><a href="booking.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="contact.html">Contact</a></li>
+          <li><a href="cart.html">Cart</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CyberForge PC. All rights reserved.</span>
+      <div class="social-links">
+        <a href="#" class="social-link" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-link" aria-label="Discord">💬</a>
+        <a href="#" class="social-link" aria-label="YouTube">▶️</a>
+        <a href="#" class="social-link" aria-label="Instagram">📷</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  // Render featured PCs (first 3)
+  renderProductGrid('featured-grid', PRODUCTS.pcs.slice(0, 3));
+  // Render cases preview (first 3)
+  renderProductGrid('cases-preview-grid', PRODUCTS.cases.slice(0, 3));
+</script>
+</body>
+</html>

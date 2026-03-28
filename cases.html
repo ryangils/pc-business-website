@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PC Cases — CyberForge PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span><span>PC Cases</span>
+      </div>
+      <h1>📦 <span class="gradient-text">PC Cases</span></h1>
+      <p>Full towers, mid towers, and mini-ITX — quality cases for every build size and aesthetic.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="shop-layout">
+
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-sidebar">
+          <h3>🔧 Filters</h3>
+
+          <div class="filter-group">
+            <label>Max Price</label>
+            <input type="range" class="price-range" id="case-price-range" min="50" max="250" step="10" value="250" oninput="onCaseFilter()" />
+            <div class="price-display">
+              <span>$50</span>
+              <span id="case-price-display">$250</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Form Factor</label>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" value="Full Tower" onchange="onCaseFilter()" /> Full Tower
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="Mid Tower" onchange="onCaseFilter()" /> Mid Tower
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="Mini ITX" onchange="onCaseFilter()" /> Mini-ITX
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Brand</label>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" value="cyberforge" onchange="onCaseFilter()" /> CyberForge
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="fractal design" onchange="onCaseFilter()" /> Fractal Design
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="cooler master" onchange="onCaseFilter()" /> Cooler Master
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="nzxt" onchange="onCaseFilter()" /> NZXT
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary btn-full btn-sm" onclick="resetCaseFilters()" style="margin-top:0.5rem;">
+            Reset Filters
+          </button>
+        </aside>
+
+        <!-- PRODUCTS AREA -->
+        <div class="products-area">
+          <div class="products-toolbar">
+            <span class="products-count" id="case-grid-count">6 products found</span>
+            <select class="sort-select" id="case-sort" onchange="onCaseFilter()">
+              <option value="default">Sort: Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </div>
+          <div class="products-grid" id="case-grid"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">
+          <span class="logo-icon">⚡</span>
+          <span>CyberForge<span class="logo-accent">PC</span></span>
+        </div>
+        <p>Building tomorrow's machines today.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="shop.html">Custom PCs</a></li>
+          <li><a href="cases.html">PC Cases</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="repairs.html">Repairs</a></li>
+          <li><a href="booking.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CyberForge PC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function getCheckedValues(name) {
+    return [...document.querySelectorAll(`.filter-sidebar input[type="checkbox"][value="${name}"]:checked`)].map(el => el.value);
+  }
+  function getAllChecked(selector) {
+    return [...document.querySelectorAll(selector + ':checked')].map(el => el.value);
+  }
+
+  function onCaseFilter() {
+    const priceMax   = parseInt(document.getElementById('case-price-range').value, 10);
+    document.getElementById('case-price-display').textContent = '$' + priceMax.toLocaleString();
+    const forms  = getAllChecked('.filter-sidebar input[type="checkbox"][value="Full Tower"], .filter-sidebar input[type="checkbox"][value="Mid Tower"], .filter-sidebar input[type="checkbox"][value="Mini ITX"]');
+    const brands = getAllChecked('.filter-sidebar input[type="checkbox"][value="cyberforge"], .filter-sidebar input[type="checkbox"][value="fractal design"], .filter-sidebar input[type="checkbox"][value="cooler master"], .filter-sidebar input[type="checkbox"][value="nzxt"]');
+    const sortBy = document.getElementById('case-sort').value;
+    let products = filterCases(priceMax, forms, brands);
+    products = sortProducts(products, sortBy);
+    renderProductGrid('case-grid', products);
+    updateProductCount('case-grid', products.length);
+  }
+
+  function resetCaseFilters() {
+    document.getElementById('case-price-range').value = 250;
+    document.getElementById('case-price-display').textContent = '$250';
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.getElementById('case-sort').value = 'default';
+    onCaseFilter();
+  }
+
+  renderProductGrid('case-grid', PRODUCTS.cases);
+</script>
+</body>
+</html>
