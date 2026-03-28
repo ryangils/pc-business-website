@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Shop PCs — CyberForge PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span><span>Shop</span>
+      </div>
+      <h1>🖥️ Shop <span class="gradient-text">Custom PCs</span></h1>
+      <p>Prebuilt and fully custom gaming & workstation PCs. Every build tested and optimised.</p>
+    </div>
+  </div>
+
+  <!-- SHOP LAYOUT -->
+  <section class="section">
+    <div class="container">
+      <div class="shop-layout">
+
+        <!-- FILTER SIDEBAR -->
+        <aside class="filter-sidebar">
+          <h3>🔧 Filters</h3>
+
+          <div class="filter-group">
+            <label>Max Price</label>
+            <input type="range" class="price-range" id="pc-price-range" min="500" max="4000" step="100" value="4000" oninput="onPCFilter()" />
+            <div class="price-display">
+              <span>$500</span>
+              <span id="pc-price-display">$4,000</span>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Performance</label>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" value="ultra" onchange="onPCFilter()" /> Ultra (4K / Pro)
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="high" onchange="onPCFilter()" /> High (1440p)
+              </label>
+              <label class="filter-option">
+                <input type="checkbox" value="mid" onchange="onPCFilter()" /> Mid (1080p)
+              </label>
+            </div>
+          </div>
+
+          <div class="filter-group">
+            <label>Brand</label>
+            <div class="filter-options">
+              <label class="filter-option">
+                <input type="checkbox" value="cyberforge" onchange="onPCFilter()" /> CyberForge
+              </label>
+            </div>
+          </div>
+
+          <button class="btn btn-secondary btn-full btn-sm" onclick="resetPCFilters()" style="margin-top:0.5rem;">
+            Reset Filters
+          </button>
+        </aside>
+
+        <!-- PRODUCTS AREA -->
+        <div class="products-area">
+          <div class="products-toolbar">
+            <span class="products-count" id="pc-grid-count">6 products found</span>
+            <select class="sort-select" id="pc-sort" onchange="onPCFilter()">
+              <option value="default">Sort: Featured</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Top Rated</option>
+              <option value="name">Name A–Z</option>
+            </select>
+          </div>
+          <div class="products-grid" id="pc-grid"></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">
+          <span class="logo-icon">⚡</span>
+          <span>CyberForge<span class="logo-accent">PC</span></span>
+        </div>
+        <p>Building tomorrow's machines today.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="shop.html">Custom PCs</a></li>
+          <li><a href="cases.html">PC Cases</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="repairs.html">Repairs</a></li>
+          <li><a href="booking.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CyberForge PC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function getCheckedValues(selector) {
+    return [...document.querySelectorAll(selector + ':checked')].map(el => el.value);
+  }
+
+  function onPCFilter() {
+    const priceMax = parseInt(document.getElementById('pc-price-range').value, 10);
+    document.getElementById('pc-price-display').textContent = '$' + priceMax.toLocaleString();
+    const perfs  = getCheckedValues('.filter-sidebar input[type="checkbox"][value="ultra"], .filter-sidebar input[type="checkbox"][value="high"], .filter-sidebar input[type="checkbox"][value="mid"]');
+    const brands = getCheckedValues('.filter-sidebar input[type="checkbox"][value="cyberforge"]');
+    const sortBy = document.getElementById('pc-sort').value;
+    let products = filterPCs(priceMax, perfs, brands);
+    products = sortProducts(products, sortBy);
+    renderProductGrid('pc-grid', products);
+    updateProductCount('pc-grid', products.length);
+  }
+
+  function resetPCFilters() {
+    document.getElementById('pc-price-range').value = 4000;
+    document.getElementById('pc-price-display').textContent = '$4,000';
+    document.querySelectorAll('.filter-sidebar input[type="checkbox"]').forEach(cb => cb.checked = false);
+    document.getElementById('pc-sort').value = 'default';
+    onPCFilter();
+  }
+
+  // Initial render
+  renderProductGrid('pc-grid', PRODUCTS.pcs);
+</script>
+</body>
+</html>

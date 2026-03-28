@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cart &amp; Checkout — CyberForge PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+
+  <div class="page-hero">
+    <div class="container">
+      <div class="breadcrumb">
+        <a href="index.html">Home</a><span class="sep">/</span><span>Cart &amp; Checkout</span>
+      </div>
+      <h1>🛒 Your <span class="gradient-text">Cart</span></h1>
+      <p>Review your items, update quantities, and complete your order below.</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="cart-layout">
+
+        <!-- LEFT: Cart items -->
+        <div>
+          <div class="cart-section">
+            <h2>Cart Items <span id="summary-items" style="color:var(--text-muted);font-weight:400;font-size:0.9rem;font-family:var(--font-body);"></span></h2>
+
+            <!-- Empty state -->
+            <div id="cart-empty" class="cart-empty" style="display:none;flex-direction:column;">
+              <div class="empty-icon">🛒</div>
+              <h3>Your cart is empty</h3>
+              <p>Looks like you haven't added anything yet.</p>
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;">
+                <a href="shop.html" class="btn btn-primary">🖥️ Shop PCs</a>
+                <a href="cases.html" class="btn btn-secondary">📦 Browse Cases</a>
+              </div>
+            </div>
+
+            <!-- Cart items list -->
+            <div id="cart-items" class="cart-items"></div>
+
+            <div style="margin-top:1.25rem;display:flex;gap:1rem;flex-wrap:wrap;">
+              <a href="shop.html" class="btn btn-secondary btn-sm">← Continue Shopping</a>
+            </div>
+          </div>
+
+          <!-- CHECKOUT FORM -->
+          <div id="checkout-section" style="margin-top:2.5rem;">
+            <h2 style="font-size:1.4rem;margin-bottom:1.25rem;">Delivery &amp; Payment</h2>
+            <div class="form-card" style="max-width:none;background:var(--bg-card);">
+              <form id="checkout-form">
+
+                <h3 style="font-size:0.88rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:1rem;">Delivery Information</h3>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="co-fname">First Name <span class="required">*</span></label>
+                    <input type="text" id="co-fname" name="firstname" class="form-control" placeholder="Ryan" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="co-lname">Last Name <span class="required">*</span></label>
+                    <input type="text" id="co-lname" name="lastname" class="form-control" placeholder="Gils" required />
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="co-email">Email Address <span class="required">*</span></label>
+                  <input type="email" id="co-email" name="email" class="form-control" placeholder="ryan@example.com" required />
+                </div>
+                <div class="form-group">
+                  <label for="co-address">Street Address <span class="required">*</span></label>
+                  <input type="text" id="co-address" name="address" class="form-control" placeholder="123 Tech Street" required />
+                </div>
+                <div class="form-row">
+                  <div class="form-group">
+                    <label for="co-city">City <span class="required">*</span></label>
+                    <input type="text" id="co-city" name="city" class="form-control" placeholder="Manchester" required />
+                  </div>
+                  <div class="form-group">
+                    <label for="co-postcode">Postcode <span class="required">*</span></label>
+                    <input type="text" id="co-postcode" name="postcode" class="form-control" placeholder="M1 1AA" required />
+                  </div>
+                </div>
+
+                <div class="divider" style="margin:1.5rem 0;"></div>
+
+                <h3 style="font-size:0.88rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--text-muted);margin-bottom:1rem;">Payment Method</h3>
+                <div class="payment-methods">
+                  <div class="payment-option active" onclick="selectPayment(this)">💳 Card</div>
+                  <div class="payment-option" onclick="selectPayment(this)">🅿️ PayPal</div>
+                  <div class="payment-option" onclick="selectPayment(this)">🍎 Apple Pay</div>
+                  <div class="payment-option" onclick="selectPayment(this)">🔒 Bank Transfer</div>
+                </div>
+
+                <div id="card-fields">
+                  <div class="form-group mt-3">
+                    <label for="co-card">Card Number <span class="required">*</span></label>
+                    <input type="text" id="co-card" name="card" class="form-control"
+                      placeholder="•••• •••• •••• ••••" maxlength="19"
+                      oninput="this.value=this.value.replace(/[^0-9]/g,'').replace(/(.{4})/g,'$1 ').trim()" />
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group">
+                      <label for="co-expiry">Expiry Date <span class="required">*</span></label>
+                      <input type="text" id="co-expiry" name="expiry" class="form-control" placeholder="MM / YY" maxlength="7" />
+                    </div>
+                    <div class="form-group">
+                      <label for="co-cvv">CVV <span class="required">*</span></label>
+                      <input type="text" id="co-cvv" name="cvv" class="form-control" placeholder="•••" maxlength="4" />
+                    </div>
+                  </div>
+                </div>
+
+                <button type="submit" class="btn btn-green btn-full btn-lg mt-3">
+                  🔒 Place Order
+                </button>
+                <p style="text-align:center;font-size:0.8rem;color:var(--text-muted);margin-top:0.75rem;">
+                  🔒 Payments are secured with 256-bit SSL encryption
+                </p>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Order summary -->
+        <div>
+          <div class="order-summary">
+            <h3>Order Summary</h3>
+            <div class="summary-row">
+              <span>Subtotal</span>
+              <span id="summary-subtotal">$0.00</span>
+            </div>
+            <div class="summary-row">
+              <span>Shipping</span>
+              <span id="summary-shipping">—</span>
+            </div>
+            <div class="summary-row">
+              <span>Tax (8%)</span>
+              <span id="summary-tax">$0.00</span>
+            </div>
+            <div class="summary-row total">
+              <span>Total</span>
+              <span class="amount" id="summary-total">$0.00</span>
+            </div>
+
+            <div style="margin:1rem 0;padding:0.75rem;background:rgba(0,255,157,0.06);border:1px solid rgba(0,255,157,0.15);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--green);">
+              🚚 Free shipping on orders over $1,500
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:0.5rem;margin-top:0.5rem;">
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--text-muted);">
+                <span>🔒</span> Secure checkout
+              </div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--text-muted);">
+                <span>🔄</span> 30-day returns
+              </div>
+              <div style="display:flex;align-items:center;gap:0.5rem;font-size:0.82rem;color:var(--text-muted);">
+                <span>🏆</span> 3-year warranty on all PCs
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text"><span class="logo-icon">⚡</span><span>CyberForge<span class="logo-accent">PC</span></span></div>
+        <p>Building tomorrow's machines today.</p>
+      </div>
+      <div class="footer-col"><h4>Products</h4><ul><li><a href="shop.html">Custom PCs</a></li><li><a href="cases.html">PC Cases</a></li></ul></div>
+      <div class="footer-col"><h4>Services</h4><ul><li><a href="repairs.html">Repairs</a></li><li><a href="booking.html">Book a Repair</a></li></ul></div>
+      <div class="footer-col"><h4>Company</h4><ul><li><a href="about.html">About</a></li><li><a href="contact.html">Contact</a></li></ul></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 CyberForge PC. All rights reserved.</span></div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  renderCartPage();
+</script>
+</body>
+</html>

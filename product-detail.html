@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Product Detail — CyberForge PC</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="index.html" class="nav-logo">
+      <span class="logo-icon">⚡</span>
+      <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
+    </a>
+    <ul class="nav-menu">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="shop.html">Shop</a></li>
+      <li><a href="cases.html">PC Cases</a></li>
+      <li><a href="repairs.html">Repairs</a></li>
+      <li><a href="about.html">About</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="cart.html" class="nav-cart">🛒 Cart <span class="cart-badge">0</span></a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="page-wrapper">
+  <div id="product-detail-content">
+    <!-- Rendered by JS -->
+    <div style="min-height:80vh;display:flex;align-items:center;justify-content:center;">
+      <p style="color:var(--text-muted);">Loading product…</p>
+    </div>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">
+          <span class="logo-icon">⚡</span>
+          <span>CyberForge<span class="logo-accent">PC</span></span>
+        </div>
+        <p>Building tomorrow's machines today.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Products</h4>
+        <ul>
+          <li><a href="shop.html">Custom PCs</a></li>
+          <li><a href="cases.html">PC Cases</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="repairs.html">Repairs</a></li>
+          <li><a href="booking.html">Book a Repair</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="about.html">About</a></li>
+          <li><a href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 CyberForge PC. All rights reserved.</span>
+    </div>
+  </div>
+</footer>
+
+<script src="js/products.js"></script>
+<script src="js/cart.js"></script>
+<script src="js/main.js"></script>
+<script>
+  function renderDetailPage() {
+    const params = new URLSearchParams(location.search);
+    const id = params.get('id');
+    const product = id ? getProductById(id) : null;
+
+    if (!product) {
+      document.getElementById('product-detail-content').innerHTML = `
+        <div style="text-align:center;padding:6rem 2rem;">
+          <div style="font-size:4rem;margin-bottom:1rem;">😕</div>
+          <h2>Product not found</h2>
+          <p style="color:var(--text-muted);margin:1rem 0 2rem;">That product doesn't exist or has been removed.</p>
+          <a href="shop.html" class="btn btn-primary">Browse Shop</a>
+        </div>`;
+      return;
+    }
+
+    document.title = product.name + ' — CyberForge PC';
+
+    // Build spec rows
+    const specRows = Object.entries(product.specs).map(([key, val]) => `
+      <div class="spec-item">
+        <div class="spec-label">${key.replace(/([A-Z])/g, ' $1').trim()}</div>
+        <div class="spec-value">${val}</div>
+      </div>
+    `).join('');
+
+    // Related products (same type, different id, max 3)
+    const allOfType = product.type === 'pc' ? PRODUCTS.pcs : PRODUCTS.cases;
+    const related = allOfType.filter(p => p.id !== product.id).slice(0, 3);
+    const relatedHTML = related.map(renderProductCard).join('');
+
+    const starsStr = '★'.repeat(Math.floor(product.rating)) + (product.rating % 1 >= 0.5 ? '⭐' : '') + '☆'.repeat(5 - Math.ceil(product.rating));
+
+    const backLink = product.type === 'pc' ? 'shop.html' : 'cases.html';
+    const backLabel = product.type === 'pc' ? 'Shop' : 'PC Cases';
+
+    document.getElementById('product-detail-content').innerHTML = `
+      <section style="padding:2rem 0 0;">
+        <div class="container">
+          <div class="breadcrumb">
+            <a href="index.html">Home</a><span class="sep">/</span>
+            <a href="${backLink}">${backLabel}</a><span class="sep">/</span>
+            <span>${product.name}</span>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="product-detail-layout">
+
+            <!-- Gallery -->
+            <div class="detail-gallery">
+              <div class="detail-main-image">
+                <span class="detail-icon">${product.icon}</span>
+              </div>
+              <div class="detail-thumbs">
+                <div class="detail-thumb active">${product.icon}</div>
+                <div class="detail-thumb">🔌</div>
+                <div class="detail-thumb">💡</div>
+                <div class="detail-thumb">🛠️</div>
+              </div>
+            </div>
+
+            <!-- Info -->
+            <div class="detail-info">
+              <div class="detail-category">
+                ${product.type === 'pc' ? '🖥️ Custom PC' : '📦 PC Case'} · ${product.brand}
+              </div>
+              <h1 class="detail-title">${product.name}</h1>
+              <div class="detail-rating">
+                <span class="stars">${starsStr}</span>
+                <span style="color:var(--cyan);font-weight:700;">${product.rating}</span>
+                <span class="rating-count">(${product.reviews} reviews)</span>
+              </div>
+              <p style="color:var(--text-secondary);margin-bottom:1.25rem;line-height:1.7;">${product.desc}</p>
+
+              <div class="detail-price-box">
+                <div class="detail-price">$${product.price.toLocaleString()}</div>
+                ${product.oldPrice ? `<div style="color:var(--text-muted);text-decoration:line-through;font-size:0.95rem;">Was $${product.oldPrice.toLocaleString()}</div>` : ''}
+                <div class="detail-avail">
+                  <span class="avail-dot"></span>
+                  <span style="color:var(--green);font-weight:600;">${product.availability}</span>
+                </div>
+              </div>
+
+              <h3 style="font-size:0.85rem;text-transform:uppercase;letter-spacing:0.1em;color:var(--text-muted);margin-bottom:0.75rem;">Specifications</h3>
+              <div class="detail-specs-grid">${specRows}</div>
+
+              <div class="detail-actions">
+                <div class="qty-control">
+                  <button class="qty-btn" onclick="changeQty(-1)">−</button>
+                  <input class="qty-input" id="detail-qty" type="number" value="1" min="1" />
+                  <button class="qty-btn" onclick="changeQty(1)">+</button>
+                </div>
+                <button class="btn btn-primary btn-lg" onclick="addDetailToCart('${product.id}')" style="flex:1;">
+                  🛒 Add to Cart
+                </button>
+              </div>
+
+              <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+                <a href="${backLink}" class="btn btn-secondary">← Back to ${backLabel}</a>
+                <a href="cart.html" class="btn btn-secondary">View Cart 🛒</a>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      <!-- Related Products -->
+      <section class="section" style="background:var(--bg-surface);border-top:1px solid var(--border);">
+        <div class="container">
+          <div class="section-header">
+            <h2>Related <span class="gradient-text">Products</span></h2>
+          </div>
+          <div class="related-grid">${relatedHTML}</div>
+        </div>
+      </section>
+    `;
+
+    // Kick off fade-ins
+    requestAnimationFrame(() => {
+      document.querySelectorAll('.fade-in').forEach((el, i) => {
+        setTimeout(() => el.classList.add('visible'), i * 80);
+      });
+    });
+  }
+
+  renderDetailPage();
+</script>
+</body>
+</html>

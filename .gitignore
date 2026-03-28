@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+backend/*.pyc
+backend/__pycache__/
+
+# C++ build artifacts
+cpp/product_catalog
+cpp/*.o
+cpp/catalog.json
+
+# OS
+.DS_Store
+Thumbs.db
