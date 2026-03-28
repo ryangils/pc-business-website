@@ -7,6 +7,8 @@ Run with:
   python app.py
 
 Set FLASK_DEBUG=1 in the environment to enable debug mode (development only).
+Set email configuration environment variables:
+  MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 """
 
 import json
@@ -15,9 +17,22 @@ import os
 from datetime import datetime
 from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
+from flask_mail import Mail, Message
 
 app = Flask(__name__, static_folder="..", static_url_path="")
 CORS(app)
+
+# Configure Flask-Mail
+app.config["MAIL_SERVER"] = os.environ.get("MAIL_SERVER", "smtp.gmail.com")
+app.config["MAIL_PORT"] = int(os.environ.get("MAIL_PORT", 587))
+app.config["MAIL_USE_TLS"] = os.environ.get("MAIL_USE_TLS", "True") == "True"
+app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME", "")
+app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD", "")
+app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_USERNAME", "noreply@cyberforgepc.com")
+
+RECIPIENT_EMAIL = "ryan@gbtel.ca"
+
+mail = Mail(app)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(levelname)s  %(message)s")
 logger = logging.getLogger(__name__)
@@ -60,6 +75,31 @@ def contact():
     contact_submissions.append(entry)
     logger.info("Contact submission #%d from %s", entry["id"], entry["email"])
 
+    # Send email to admin
+    try:
+        msg = Message(
+            subject=f"New Contact Form: {data['subject']}",
+            recipients=[RECIPIENT_EMAIL],
+            reply_to=data["email"]
+        )
+        msg.body = f"""
+New contact form submission:
+
+Name: {data['name']}
+Email: {data['email']}
+Subject: {data['subject']}
+
+Message:
+{data['message']}
+
+---
+Submitted at: {entry['timestamp']}
+        """
+        mail.send(msg)
+        logger.info("Email sent to %s for submission #%d", RECIPIENT_EMAIL, entry["id"])
+    except Exception as e:
+        logger.error("Failed to send email for submission #%d: %s", entry["id"], str(e))
+
     return jsonify({"success": True, "message": "Thank you! We'll reply within 24 hours."}), 200
 
 
@@ -93,6 +133,38 @@ def booking():
         entry["preferred_date"], entry["preferred_time"],
     )
 
+    # Send email to admin
+    try:
+        msg = Message(
+            subject=f"New Booking Request #{entry['id']}",
+            recipients=[RECIPIENT_EMAIL],
+            reply_to=data["email"]
+        )
+        msg.body = f"""
+New booking request:
+
+Name: {data['name']}
+Email: {data['email']}
+Phone: {data.get('phone', 'N/A')}
+
+Device: {data['device']}
+Service: {data['service']}
+Issue: {data['issue']}
+
+Preferred Date: {data['date']}
+Preferred Time: {data['time']}
+
+Notes:
+{data.get('notes', 'None')}
+
+---
+Submitted at: {entry['timestamp']}
+        """
+        mail.send(msg)
+        logger.info("Email sent to %s for booking #%d", RECIPIENT_EMAIL, entry["id"])
+    except Exception as e:
+        logger.error("Failed to send email for booking #%d: %s", entry["id"], str(e))
+
     return jsonify({
         "success": True,
         "booking_id": entry["id"],
@@ -105,7 +177,6 @@ def booking():
 @app.route("/api/admin/contacts", methods=["GET"])
 def admin_contacts():
     return jsonify(contact_submissions), 200
-
 
 @app.route("/api/admin/bookings", methods=["GET"])
 def admin_bookings():
