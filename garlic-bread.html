@@ -1,0 +1,921 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Golden Crust — The Garlic Bread Experience</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Lato:wght@400;700&display=swap" rel="stylesheet" />
+  <style>
+    /* ============================================================
+       Golden Crust — Garlic Bread Website
+       Warm, buttery aesthetic with toasty golden tones
+    ============================================================ */
+
+    :root {
+      --gold:        #f5c518;
+      --gold-deep:   #c8960c;
+      --butter:      #fef3c7;
+      --toast:       #92400e;
+      --crust:       #78350f;
+      --garlic:      #d97706;
+      --green-herb:  #4d7c0f;
+      --cream:       #fef9ec;
+      --text-dark:   #1c1003;
+      --text-mid:    #451a03;
+      --text-soft:   #78350f;
+      --shadow:      0 8px 32px rgba(92, 40, 0, 0.18);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; font-size: 16px; }
+
+    body {
+      background: var(--cream);
+      color: var(--text-dark);
+      font-family: 'Lato', 'Segoe UI', sans-serif;
+      line-height: 1.7;
+      overflow-x: hidden;
+    }
+
+    a { color: var(--garlic); text-decoration: none; }
+    a:hover { color: var(--toast); }
+    ul { list-style: none; }
+    img { max-width: 100%; height: auto; display: block; }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', Georgia, serif;
+      line-height: 1.2;
+    }
+
+    /* ---------- Scrollbar ---------- */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--butter); }
+    ::-webkit-scrollbar-thumb { background: var(--garlic); border-radius: 4px; }
+
+    /* ---------- Layout ---------- */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1.5rem; }
+
+    /* ---------- Navbar ---------- */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(254, 243, 199, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 2px solid var(--gold);
+      padding: 0.85rem 0;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--toast);
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .nav-menu a {
+      font-weight: 700;
+      color: var(--text-mid);
+      font-size: 0.95rem;
+      letter-spacing: 0.03em;
+      transition: color 0.2s;
+    }
+
+    .nav-menu a:hover { color: var(--garlic); }
+
+    .nav-order-btn {
+      background: var(--garlic);
+      color: #fff !important;
+      padding: 0.5rem 1.25rem;
+      border-radius: 999px;
+      font-weight: 700 !important;
+      transition: background 0.2s !important;
+    }
+
+    .nav-order-btn:hover { background: var(--toast) !important; color: #fff !important; }
+
+    /* ---------- Hero ---------- */
+    .hero {
+      background: linear-gradient(135deg, #7c3700 0%, #b45309 40%, #d97706 70%, #f59e0b 100%);
+      color: #fff;
+      padding: 7rem 0 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Ccircle cx='30' cy='30' r='15'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+      pointer-events: none;
+    }
+
+    .hero-content { max-width: 680px; position: relative; }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(255,255,255,0.15);
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 999px;
+      padding: 0.35rem 1rem;
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.05em;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 900;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 2px 20px rgba(0,0,0,0.3);
+    }
+
+    .hero h1 .accent {
+      color: var(--gold);
+      text-shadow: 0 0 30px rgba(245,197,24,0.6);
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      opacity: 0.9;
+      margin-bottom: 2.5rem;
+      max-width: 520px;
+    }
+
+    .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.75rem 1.75rem;
+      border-radius: 999px;
+      font-family: 'Lato', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none;
+    }
+
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.25); }
+
+    .btn-primary {
+      background: #fff;
+      color: var(--toast);
+    }
+
+    .btn-secondary {
+      background: transparent;
+      color: #fff;
+      border: 2px solid rgba(255,255,255,0.7);
+    }
+
+    .btn-secondary:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    .btn-gold {
+      background: var(--gold);
+      color: var(--toast);
+    }
+
+    .hero-visual {
+      position: absolute;
+      right: -2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 12rem;
+      line-height: 1;
+      opacity: 0.18;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .hero-stats {
+      display: flex;
+      gap: 2.5rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .stat-item h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      color: var(--gold);
+    }
+
+    .stat-item p {
+      font-size: 0.85rem;
+      opacity: 0.8;
+      margin: 0;
+    }
+
+    /* ---------- Divider ---------- */
+    .divider {
+      height: 4px;
+      background: linear-gradient(90deg, var(--gold-deep), var(--garlic), var(--gold));
+      opacity: 0.5;
+    }
+
+    /* ---------- Sections ---------- */
+    .section { padding: 5rem 0; }
+    .section-alt { background: var(--butter); }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 3.5rem;
+    }
+
+    .section-header h2 {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      color: var(--toast);
+      margin-bottom: 0.75rem;
+    }
+
+    .section-header p {
+      color: var(--text-soft);
+      font-size: 1.1rem;
+      max-width: 560px;
+      margin: 0 auto;
+    }
+
+    .gold-text {
+      color: var(--garlic);
+    }
+
+    /* ---------- Menu Grid ---------- */
+    .menu-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .menu-card {
+      background: #fff;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: transform 0.25s, box-shadow 0.25s;
+      border: 1px solid rgba(200, 150, 12, 0.15);
+    }
+
+    .menu-card:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 16px 48px rgba(92, 40, 0, 0.22);
+    }
+
+    .menu-card-img {
+      height: 160px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 5rem;
+      background: linear-gradient(135deg, var(--butter), #fde68a);
+    }
+
+    .menu-card-body { padding: 1.5rem; }
+
+    .menu-card-body h3 {
+      font-size: 1.3rem;
+      color: var(--toast);
+      margin-bottom: 0.5rem;
+    }
+
+    .menu-card-body p {
+      color: var(--text-soft);
+      font-size: 0.95rem;
+      margin-bottom: 1rem;
+    }
+
+    .menu-card-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .price {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--garlic);
+    }
+
+    .tag {
+      display: inline-block;
+      background: #fef3c7;
+      color: var(--toast);
+      border-radius: 999px;
+      padding: 0.2rem 0.75rem;
+      font-size: 0.8rem;
+      font-weight: 700;
+    }
+
+    .tag-spicy { background: #fee2e2; color: #b91c1c; }
+    .tag-vegan { background: #dcfce7; color: #166534; }
+    .tag-popular { background: #fef3c7; color: var(--toast); }
+    .tag-new { background: #ede9fe; color: #5b21b6; }
+
+    /* ---------- Why Garlic Bread ---------- */
+    .why-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 2rem;
+    }
+
+    .why-card {
+      text-align: center;
+      padding: 2.5rem 1.5rem;
+      background: #fff;
+      border-radius: 20px;
+      border: 1px solid rgba(200, 150, 12, 0.15);
+      box-shadow: var(--shadow);
+      transition: transform 0.25s;
+    }
+
+    .why-card:hover { transform: translateY(-4px); }
+
+    .why-icon { font-size: 3rem; display: block; margin-bottom: 1rem; }
+
+    .why-card h3 {
+      font-size: 1.2rem;
+      color: var(--toast);
+      margin-bottom: 0.5rem;
+    }
+
+    .why-card p { color: var(--text-soft); font-size: 0.95rem; }
+
+    /* ---------- Recipe ---------- */
+    .recipe-wrapper {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: start;
+    }
+
+    @media (max-width: 768px) {
+      .recipe-wrapper { grid-template-columns: 1fr; gap: 2rem; }
+      .hero-visual { display: none; }
+      .nav-menu { gap: 1rem; }
+    }
+
+    .recipe-block h3 {
+      font-size: 1.5rem;
+      color: var(--toast);
+      margin-bottom: 1.25rem;
+      border-bottom: 2px solid var(--gold);
+      padding-bottom: 0.5rem;
+    }
+
+    .ingredient-list li, .step-list li {
+      padding: 0.65rem 0;
+      border-bottom: 1px dashed rgba(200, 150, 12, 0.3);
+      color: var(--text-mid);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .ingredient-list li::before { content: '🧄'; flex-shrink: 0; }
+
+    .step-list { counter-reset: step; }
+
+    .step-list li { counter-increment: step; }
+
+    .step-list li::before {
+      content: counter(step);
+      background: var(--garlic);
+      color: #fff;
+      font-weight: 700;
+      font-size: 0.8rem;
+      width: 1.6rem;
+      height: 1.6rem;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      margin-top: 0.1rem;
+    }
+
+    /* ---------- Testimonials ---------- */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .testimonial-card {
+      background: #fff;
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+      border-left: 4px solid var(--gold);
+      transition: transform 0.25s;
+    }
+
+    .testimonial-card:hover { transform: translateY(-4px); }
+
+    .stars { color: var(--gold); font-size: 1.1rem; margin-bottom: 0.75rem; }
+
+    .testimonial-card blockquote {
+      color: var(--text-mid);
+      font-style: italic;
+      margin-bottom: 1rem;
+      font-size: 0.98rem;
+    }
+
+    .testimonial-author {
+      font-weight: 700;
+      color: var(--toast);
+      font-size: 0.9rem;
+    }
+
+    /* ---------- CTA Banner ---------- */
+    .cta-banner {
+      background: linear-gradient(135deg, var(--toast) 0%, var(--garlic) 100%);
+      border-radius: 24px;
+      padding: 4rem 3rem;
+      text-align: center;
+      color: #fff;
+      box-shadow: 0 12px 48px rgba(92, 40, 0, 0.25);
+    }
+
+    .cta-banner h2 {
+      font-size: clamp(1.8rem, 4vw, 2.8rem);
+      margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+      opacity: 0.9;
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
+    }
+
+    .cta-banner .btn-primary { background: var(--gold); color: var(--toast); }
+    .cta-banner .btn-primary:hover { background: #fff; }
+
+    /* ---------- Footer ---------- */
+    .footer {
+      background: var(--crust);
+      color: rgba(255,255,255,0.8);
+      padding: 4rem 0 2rem;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr 1fr 1fr;
+      gap: 3rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 900px) {
+      .footer-grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 560px) {
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+
+    .footer-brand .logo-text {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: var(--gold);
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .footer-brand p { font-size: 0.9rem; opacity: 0.7; }
+
+    .footer-col h4 {
+      color: var(--gold);
+      font-family: 'Playfair Display', serif;
+      margin-bottom: 1rem;
+      font-size: 1rem;
+    }
+
+    .footer-col ul { display: flex; flex-direction: column; gap: 0.6rem; }
+    .footer-col a { color: rgba(255,255,255,0.65); font-size: 0.9rem; transition: color 0.2s; }
+    .footer-col a:hover { color: var(--gold); }
+
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.1);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      font-size: 0.85rem;
+      opacity: 0.65;
+    }
+
+    /* ---------- Animations ---------- */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50%       { transform: translateY(-12px); }
+    }
+
+    .float { animation: float 3.5s ease-in-out infinite; }
+
+    @keyframes sizzle {
+      0%, 100% { text-shadow: 0 0 10px rgba(245,197,24,0.4); }
+      50%       { text-shadow: 0 0 30px rgba(245,197,24,0.9), 0 0 60px rgba(245,197,24,0.4); }
+    }
+
+    .sizzle { animation: sizzle 2s ease-in-out infinite; }
+
+    /* ---------- Toast Toast popup ---------- */
+    #toast-popup {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--toast);
+      color: #fff;
+      padding: 1rem 1.5rem;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 0.95rem;
+      box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+      display: none;
+      align-items: center;
+      gap: 0.6rem;
+      z-index: 9999;
+      animation: slidein 0.3s ease;
+    }
+
+    @keyframes slidein {
+      from { transform: translateX(120%); opacity: 0; }
+      to   { transform: translateX(0);   opacity: 1; }
+    }
+
+    /* ---------- Order buttons ---------- */
+    .order-btn {
+      background: var(--garlic);
+      color: #fff;
+      border: none;
+      border-radius: 999px;
+      padding: 0.5rem 1.2rem;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.2s;
+      font-family: 'Lato', sans-serif;
+    }
+
+    .order-btn:hover { background: var(--toast); transform: scale(1.05); }
+  </style>
+</head>
+<body>
+
+<!-- ======== NAVBAR ======== -->
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="garlic-bread.html" class="nav-logo">
+      🥖 Golden Crust
+    </a>
+    <ul class="nav-menu">
+      <li><a href="#menu">Menu</a></li>
+      <li><a href="#why">Why GB?</a></li>
+      <li><a href="#recipe">Recipe</a></li>
+      <li><a href="#reviews">Reviews</a></li>
+      <li><a href="#order" class="nav-order-btn">🧄 Order Now</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ======== HERO ======== -->
+<section class="hero">
+  <div class="container">
+    <div class="hero-content">
+      <div class="hero-badge">🏆 Voted #1 Garlic Bread Destination 2024</div>
+      <h1>
+        The World's Greatest<br />
+        <span class="accent sizzle">Garlic Bread.</span>
+      </h1>
+      <p>
+        Crispy on the outside, pillowy-soft on the inside, drowning in roasted garlic butter and fresh herbs. This is not just bread. This is a <em>lifestyle</em>.
+      </p>
+      <div class="hero-cta">
+        <a href="#menu" class="btn btn-primary">🥖 See the Menu</a>
+        <a href="#recipe" class="btn btn-secondary">📖 Secret Recipe</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <h3>1M+</h3>
+          <p>Loaves Served</p>
+        </div>
+        <div class="stat-item">
+          <h3>5★</h3>
+          <p>Avg. Rating</p>
+        </div>
+        <div class="stat-item">
+          <h3>12</h3>
+          <p>Varieties</p>
+        </div>
+        <div class="stat-item">
+          <h3>∞</h3>
+          <p>Happiness</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="hero-visual float" aria-hidden="true">🥖</div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======== MENU ======== -->
+<section class="section" id="menu">
+  <div class="container">
+    <div class="section-header">
+      <h2>Our <span class="gold-text">Menu</span></h2>
+      <p>Every loaf hand-crafted with real butter, fresh garlic, and love. Choose your destiny.</p>
+    </div>
+    <div class="menu-grid" id="menu-grid"></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======== WHY GARLIC BREAD ======== -->
+<section class="section section-alt" id="why">
+  <div class="container">
+    <div class="section-header">
+      <h2>Why <span class="gold-text">Garlic Bread</span>?</h2>
+      <p>Because every meal is better with it. End of discussion. But here's the science.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card">
+        <span class="why-icon">🧄</span>
+        <h3>Immunity Boost</h3>
+        <p>Garlic is loaded with allicin — nature's antibiotic. Every slice is basically a health potion.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🧈</span>
+        <h3>Premium Butter</h3>
+        <p>We only use real, grass-fed European-style butter. Margarine is a myth we don't believe in.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🔥</span>
+        <h3>Stone-Baked</h3>
+        <p>Each loaf is stone-baked at 240 °C for that perfectly caramelised golden crust. No shortcuts.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🌿</span>
+        <h3>Fresh Herbs</h3>
+        <p>Flat-leaf parsley, rosemary, and a secret blend of herbs picked fresh every morning.</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">😌</span>
+        <h3>Comfort Food</h3>
+        <p>Scientifically proven* to cure bad days, boost morale, and make everything taste better. (*probably)</p>
+      </div>
+      <div class="why-card">
+        <span class="why-icon">🤝</span>
+        <h3>It Pairs with Everything</h3>
+        <p>Pasta. Soup. Steak. Or just on its own at 2am. Garlic bread has no wrong answer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======== RECIPE ======== -->
+<section class="section" id="recipe">
+  <div class="container">
+    <div class="section-header">
+      <h2>The <span class="gold-text">Classic Recipe</span></h2>
+      <p>Our legendary home-style garlic bread. No chef skills required — just butter and bravery.</p>
+    </div>
+    <div class="recipe-wrapper">
+      <div class="recipe-block">
+        <h3>🧄 Ingredients</h3>
+        <ul class="ingredient-list">
+          <li>1 large baguette or ciabatta loaf</li>
+          <li>115g (½ cup) unsalted butter, softened</li>
+          <li>6–8 cloves of fresh garlic, minced</li>
+          <li>3 tbsp fresh flat-leaf parsley, finely chopped</li>
+          <li>½ tsp sea salt flakes</li>
+          <li>¼ tsp freshly ground black pepper</li>
+          <li>Pinch of dried chilli flakes (optional)</li>
+          <li>50g Parmesan, freshly grated (optional)</li>
+        </ul>
+      </div>
+      <div class="recipe-block">
+        <h3>🔥 Method</h3>
+        <ol class="step-list">
+          <li>Preheat your oven to 200 °C (180 °C fan) / 400 °F.</li>
+          <li>Mix butter, garlic, parsley, salt, and pepper together until fully combined.</li>
+          <li>Slice the baguette diagonally at 2 cm intervals — don't cut all the way through.</li>
+          <li>Generously spread the garlic butter into each cut, getting right into every crevice.</li>
+          <li>Wrap tightly in foil and bake for 15 minutes.</li>
+          <li>Open the foil and bake a further 5 minutes until golden and gloriously crisp.</li>
+          <li>Scatter Parmesan over the top, return to oven for 2 minutes until melted.</li>
+          <li>Serve immediately. Try not to eat the whole loaf in one sitting. (You will fail.)</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ======== REVIEWS ======== -->
+<section class="section section-alt" id="reviews">
+  <div class="container">
+    <div class="section-header">
+      <h2>What People <span class="gold-text">Are Saying</span></h2>
+      <p>Real reviews from real garlic bread enthusiasts.</p>
+    </div>
+    <div class="testimonials-grid">
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"I came for the pasta and stayed for the garlic bread. I haven't left in three weeks. Help."</blockquote>
+        <div class="testimonial-author">— Marco T., Italy 🇮🇹</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"Ordered the cheesy variety on a Tuesday. Called in sick on Wednesday. Worth it. Would do again."</blockquote>
+        <div class="testimonial-author">— Priya K., London 🇬🇧</div>
+      </div>
+      <div class="testimonial-card">
+        <div class="stars">★★★★★</div>
+        <blockquote>"My therapist told me to find joy in small things. This garlic bread is not a small thing. It's enormous and perfect."</blockquote>
+        <div class="testimonial-author">— Jake M., New York 🇺🇸</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== ORDER CTA ======== -->
+<section class="section" id="order">
+  <div class="container">
+    <div class="cta-banner">
+      <h2>Ready for the Best Bite of Your Life?</h2>
+      <p>Order fresh-baked garlic bread delivered to your door in under 30 minutes. Warm, golden, and life-changing.</p>
+      <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;">
+        <a href="#menu" class="btn btn-primary btn-lg">🥖 Order Now</a>
+        <a href="#recipe" class="btn btn-secondary btn-lg">📖 DIY Recipe</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ======== FOOTER ======== -->
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="logo-text">🥖 Golden Crust</div>
+        <p>Purveyors of the finest garlic bread on this side of the Mediterranean. Baked fresh daily with real butter and real garlic, because you deserve nothing less.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Menu</h4>
+        <ul>
+          <li><a href="#menu">Classic Garlic Bread</a></li>
+          <li><a href="#menu">Cheesy Garlic Bread</a></li>
+          <li><a href="#menu">Spicy Garlic Bread</a></li>
+          <li><a href="#menu">Vegan Option</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Info</h4>
+        <ul>
+          <li><a href="#recipe">Secret Recipe</a></li>
+          <li><a href="#why">Health Benefits</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#order">Order Now</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Get in Touch</h4>
+        <ul>
+          <li><a href="#">🧄 hello@goldencrust.com</a></li>
+          <li><a href="#">📍 The Bakery, Garlic Lane</a></li>
+          <li><a href="#">📞 +44 20 0000 0000</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 Golden Crust. All rights reserved. No bread was harmed in the making of this website.</span>
+      <span>🧄 Made with butter and love.</span>
+    </div>
+  </div>
+</footer>
+
+<!-- Toast popup notification -->
+<div id="toast-popup">🥖 <span id="toast-msg">Added to order!</span></div>
+
+<script>
+  // Menu data
+  const MENU = [
+    {
+      emoji: '🥖',
+      name: 'Classic Garlic Bread',
+      desc: 'The original. Toasted baguette slathered in roasted garlic butter and fresh parsley. Perfection in its purest form.',
+      price: '£3.99',
+      tag: 'popular',
+      tagLabel: '🔥 Most Popular',
+    },
+    {
+      emoji: '🧀',
+      name: 'Cheesy Garlic Bread',
+      desc: 'Our classic base topped with a generous blanket of melted mozzarella and aged Parmesan. Stretchy, gooey, glorious.',
+      price: '£4.99',
+      tag: 'popular',
+      tagLabel: '❤️ Fan Favourite',
+    },
+    {
+      emoji: '🌶️',
+      name: 'Spicy Devil Bread',
+      desc: 'Garlic butter meets chilli flakes, smoked paprika, and a drizzle of chilli oil. For those who like it hot.',
+      price: '£4.49',
+      tag: 'spicy',
+      tagLabel: '🌶️ Spicy',
+    },
+    {
+      emoji: '🌿',
+      name: 'Herb Garden',
+      desc: 'Garlic butter loaded with rosemary, thyme, basil, and oregano. Basically a garden on bread. A delicious garden.',
+      price: '£4.29',
+      tag: 'vegan',
+      tagLabel: '🌱 Vegan',
+    },
+    {
+      emoji: '🧄',
+      name: 'Black Garlic Beurre',
+      desc: 'Slow-fermented black garlic blended into whipped butter for a deep, caramel-sweet umami hit. Our most sophisticated slice.',
+      price: '£5.49',
+      tag: 'new',
+      tagLabel: '✨ New',
+    },
+    {
+      emoji: '🍕',
+      name: 'Pizza Garlic Bread',
+      desc: 'Tomato sauce, mozzarella, fresh basil, and all the garlic butter on a sourdough base. The crossover nobody expected but everyone needed.',
+      price: '£5.99',
+      tag: 'popular',
+      tagLabel: '🔥 Top Seller',
+    },
+  ];
+
+  function showToast(name) {
+    const popup = document.getElementById('toast-popup');
+    document.getElementById('toast-msg').textContent = `${name} added to your order!`;
+    popup.style.display = 'flex';
+    clearTimeout(popup._timer);
+    popup._timer = setTimeout(() => { popup.style.display = 'none'; }, 3000);
+  }
+
+  function renderMenu() {
+    const grid = document.getElementById('menu-grid');
+    grid.innerHTML = MENU.map(item => `
+      <div class="menu-card">
+        <div class="menu-card-img">${item.emoji}</div>
+        <div class="menu-card-body">
+          <h3>${item.name}</h3>
+          <p>${item.desc}</p>
+          <div class="menu-card-footer">
+            <span class="price">${item.price}</span>
+            <span class="tag tag-${item.tag}">${item.tagLabel}</span>
+          </div>
+          <button class="order-btn" style="margin-top:1rem;width:100%;" onclick="showToast('${item.name.replace(/'/g, "\\'")}')">
+            🥖 Add to Order
+          </button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  renderMenu();
+</script>
+
+</body>
+</html>
