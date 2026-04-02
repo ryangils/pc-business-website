@@ -10,11 +10,13 @@ document.addEventListener('DOMContentLoaded', () => {
   initFormHandlers();
 });
 
-/* ---- Navbar: active page + scroll effect ---- */
+/* ---- Navbar: active page + scroll effect + mobile toggle ---- */
 function initNavbar() {
-  const navbar = document.querySelector('.navbar');
-  const links  = document.querySelectorAll('.nav-menu a');
-  const page   = location.pathname.split('/').pop() || 'index.html';
+  const navbar  = document.querySelector('.navbar');
+  const menu    = document.querySelector('.nav-menu');
+  const toggle  = document.querySelector('.nav-toggle');
+  const links   = document.querySelectorAll('.nav-menu a');
+  const page    = location.pathname.split('/').pop() || 'index.html';
 
   links.forEach(link => {
     const href = link.getAttribute('href');
@@ -26,6 +28,32 @@ function initNavbar() {
   window.addEventListener('scroll', () => {
     if (navbar) navbar.classList.toggle('scrolled', window.scrollY > 20);
   }, { passive: true });
+
+  if (toggle && menu) {
+    toggle.addEventListener('click', () => {
+      const open = menu.classList.toggle('open');
+      toggle.classList.toggle('open', open);
+      toggle.setAttribute('aria-expanded', String(open));
+    });
+
+    // Close menu when a nav link is clicked
+    links.forEach(link => {
+      link.addEventListener('click', () => {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+
+    // Close menu on outside click
+    document.addEventListener('click', (e) => {
+      if (!navbar.contains(e.target)) {
+        menu.classList.remove('open');
+        toggle.classList.remove('open');
+        toggle.setAttribute('aria-expanded', 'false');
+      }
+    });
+  }
 }
 
 /* ---- Intersection observer for .fade-in elements ---- */
@@ -110,6 +138,14 @@ async function handleFormSubmit(form, endpoint, successMsg) {
 function selectPayment(el) {
   document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('active'));
   el.classList.add('active');
+}
+
+/* ---- Mobile: filter sidebar toggle (shop / cases pages) ---- */
+function toggleFilterSidebar(btn) {
+  const sidebar = document.querySelector('.filter-sidebar');
+  if (!sidebar) return;
+  const open = sidebar.classList.toggle('sidebar-open');
+  if (btn) btn.textContent = open ? '✕ Hide Filters' : '🔧 Filters';
 }
 
 /* ---- Product detail page: qty controls ---- */
