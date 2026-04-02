@@ -17,6 +17,7 @@
       <span class="logo-icon">⚡</span>
       <span class="logo-text">CyberForge<span class="logo-accent">PC</span></span>
     </a>
+    <button class="nav-toggle" aria-label="Toggle menu" aria-expanded="false"><span></span><span></span><span></span></button>
     <ul class="nav-menu">
       <li><a href="index.html">Home</a></li>
       <li><a href="shop.html">Shop</a></li>
@@ -93,6 +94,7 @@
         <div class="products-area">
           <div class="products-toolbar">
             <span class="products-count" id="pc-grid-count">6 products found</span>
+            <button class="btn btn-secondary btn-sm filter-toggle-btn" onclick="toggleFilterSidebar(this)">🔧 Filters</button>
             <select class="sort-select" id="pc-sort" onchange="onPCFilter()">
               <option value="default">Sort: Featured</option>
               <option value="price-asc">Price: Low to High</option>
