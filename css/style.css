@@ -1816,10 +1816,6 @@ select.form-control option { background: var(--bg-surface); }
     text-align: center;
   }
 
-  .stat-item {
-    text-align: center;
-  }
-
   .btn-lg {
     padding: 0.75rem 1.25rem;
     font-size: 0.95rem;
