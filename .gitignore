@@ -11,6 +11,10 @@ cpp/product_catalog
 cpp/*.o
 cpp/catalog.json
 
+# Node.js
+node_modules/
+npm-debug.log*
+
 # OS
 .DS_Store
 Thumbs.db
