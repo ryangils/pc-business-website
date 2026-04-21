@@ -514,7 +514,6 @@ h1, h2, h3, h4, h5 {
 .product-card:hover .product-image img { transform: scale(1.06); }
 /* When a real photo is loaded, hide the emoji fallback */
 .product-image.has-photo .product-img-icon { display: none; }
-.product-image.has-photo .product-img-photo ~ .product-img-icon { display: none; }
 /* If image fails to load in a has-photo card, show icon */
 .product-img-photo { width: 100%; height: 100%; object-fit: cover; }
 .product-img-photo:not([src]),
@@ -1710,12 +1709,6 @@ select.form-control option { background: var(--bg-surface); }
   .why-grid {
     grid-template-columns: 1fr 1fr;
     gap: 1rem;
-  }
-
-  /* ----- Photo strip ----- */
-  .photo-strip {
-    grid-template-columns: repeat(2, 1fr);
-    height: 140px;
   }
 
   /* ----- Shop layout ----- */
