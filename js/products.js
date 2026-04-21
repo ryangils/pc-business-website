@@ -372,16 +372,15 @@ function renderProductCard(product) {
   }
 
   const imageContent = product.image
-    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">`
+    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="product-img-photo" onerror="this.closest('.product-image').classList.remove('has-photo')">`
     : '';
-  const iconStyle = product.image ? 'display:none' : '';
 
   return `
     <div class="product-card fade-in" data-product-id="${product.id}" data-type="${product.type}" data-price="${product.price}" data-perf="${product.performance || ''}" data-brand="${product.brand.toLowerCase()}" data-form="${product.formFactor || ''}">
-      <div class="product-image">
+      <div class="product-image${product.image ? ' has-photo' : ''}">
         ${badgeHTML}
         ${imageContent}
-        <span class="product-img-icon" style="${iconStyle}">${product.icon}</span>
+        <span class="product-img-icon">${product.icon}</span>
       </div>
       <div class="product-body">
         <div class="product-name">${product.name}</div>
