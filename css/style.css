@@ -1239,21 +1239,18 @@ select.form-control option { background: var(--bg-surface); }
   margin-bottom: 0.25rem;
 }
 .contact-item p { font-size: 0.92rem; color: var(--text-primary); margin: 0; }
-.map-placeholder {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
+.map-container {
   border-radius: var(--radius-md);
-  height: 200px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  overflow: hidden;
   margin-top: 1rem;
-  color: var(--text-muted);
-  font-size: 2rem;
-  flex-direction: column;
-  gap: 0.5rem;
+  border: 1px solid var(--border);
+  height: 200px;
 }
-.map-placeholder span:last-child { font-size: 0.85rem; }
+.map-container iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 
 /* ---------- Cart & Checkout ---------- */
 .cart-layout {
