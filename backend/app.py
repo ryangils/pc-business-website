@@ -30,7 +30,7 @@ app.config["MAIL_USERNAME"] = os.environ.get("MAIL_USERNAME", "")
 app.config["MAIL_PASSWORD"] = os.environ.get("MAIL_PASSWORD", "")
 app.config["MAIL_DEFAULT_SENDER"] = os.environ.get("MAIL_USERNAME", "noreply@cyberforgepc.com")
 
-RECIPIENT_EMAIL = "ryangils23@gmail.com"
+RECIPIENT_EMAIL = "ryangils2023@gmail.com"
 
 mail = Mail(app)
 
