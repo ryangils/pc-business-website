@@ -12,6 +12,7 @@ const PRODUCTS = {
       badge: 'HOT',
       badgeClass: 'badge-hot',
       icon: '🖥️',
+      image: 'https://images.unsplash.com/photo-1593640408182-31c228b38f44?auto=format&fit=crop&w=600&q=80',
       price: 2499,
       oldPrice: 2899,
       desc: 'The ultimate gaming powerhouse built for 4K dominance. Zero compromise.',
@@ -38,6 +39,7 @@ const PRODUCTS = {
       badge: 'NEW',
       badgeClass: 'badge-new',
       icon: '💻',
+      image: 'https://images.unsplash.com/photo-1587202372583-49330a15584d?auto=format&fit=crop&w=600&q=80',
       price: 1299,
       oldPrice: null,
       desc: 'Mid-range powerhouse delivering exceptional value for gamers and creators.',
@@ -64,6 +66,7 @@ const PRODUCTS = {
       badge: 'SALE',
       badgeClass: 'badge-sale',
       icon: '🖥️',
+      image: 'https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=600&q=80',
       price: 799,
       oldPrice: 999,
       desc: 'Entry-level gaming PC that punches well above its price tag.',
@@ -90,6 +93,7 @@ const PRODUCTS = {
       badge: 'CUSTOM',
       badgeClass: 'badge-custom',
       icon: '🖥️',
+      image: 'https://images.unsplash.com/photo-1555617981-dac3772e4783?auto=format&fit=crop&w=600&q=80',
       price: 3499,
       oldPrice: null,
       desc: 'Professional workstation for 3D rendering, video production, and AI workloads.',
@@ -116,6 +120,7 @@ const PRODUCTS = {
       badge: null,
       badgeClass: '',
       icon: '🖥️',
+      image: 'https://images.unsplash.com/photo-1614624532983-4ce03382d63d?auto=format&fit=crop&w=600&q=80',
       price: 999,
       oldPrice: null,
       desc: 'The dedicated streaming and content creation rig. Go live in style.',
@@ -142,6 +147,7 @@ const PRODUCTS = {
       badge: 'NEW',
       badgeClass: 'badge-new',
       icon: '🖥️',
+      image: 'https://images.unsplash.com/photo-1618336753974-aae8e04506aa?auto=format&fit=crop&w=600&q=80',
       price: 1799,
       oldPrice: null,
       desc: 'Maximum RGB spectacle meets maximum gaming performance. Light up any room.',
@@ -170,6 +176,7 @@ const PRODUCTS = {
       badge: 'HOT',
       badgeClass: 'badge-hot',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1526657782461-9fe13402a841?auto=format&fit=crop&w=600&q=80',
       price: 149,
       oldPrice: 179,
       desc: 'Full tower with tempered glass side panel and excellent cable management.',
@@ -196,6 +203,7 @@ const PRODUCTS = {
       badge: 'NEW',
       badgeClass: 'badge-new',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1616509091215-57bbece36b14?auto=format&fit=crop&w=600&q=80',
       price: 89,
       oldPrice: null,
       desc: 'Mid-tower with 4 pre-installed ARGB fans and stunning panoramic glass.',
@@ -222,6 +230,7 @@ const PRODUCTS = {
       badge: null,
       badgeClass: '',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1591488320449-011701bb6704?auto=format&fit=crop&w=600&q=80',
       price: 79,
       oldPrice: null,
       desc: 'Compact mini-ITX case with surprising cooling performance and clean looks.',
@@ -248,6 +257,7 @@ const PRODUCTS = {
       badge: 'SALE',
       badgeClass: 'badge-sale',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1604752468578-c5c9c39ebaaa?auto=format&fit=crop&w=600&q=80',
       price: 119,
       oldPrice: 149,
       desc: 'Panoramic tempered glass on three sides — show off every component.',
@@ -274,6 +284,7 @@ const PRODUCTS = {
       badge: null,
       badgeClass: '',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1598954804534-a09f1dc0aaf6?auto=format&fit=crop&w=600&q=80',
       price: 99,
       oldPrice: null,
       desc: 'Perforated steel mesh front panel for optimal airflow in demanding builds.',
@@ -300,6 +311,7 @@ const PRODUCTS = {
       badge: 'CUSTOM',
       badgeClass: 'badge-custom',
       icon: '📦',
+      image: 'https://images.unsplash.com/photo-1641572088060-3d66a9a13e35?auto=format&fit=crop&w=600&q=80',
       price: 179,
       oldPrice: null,
       desc: 'Premium full tower with integrated ARGB controller and tool-free drive bays.',
@@ -359,10 +371,15 @@ function renderProductCard(product) {
     specTags += `<span class="spec-tag">${val}</span>`;
   }
 
+  const imageContent = product.image
+    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="product-img-photo" onerror="this.closest('.product-image').classList.remove('has-photo')">`
+    : '';
+
   return `
     <div class="product-card fade-in" data-product-id="${product.id}" data-type="${product.type}" data-price="${product.price}" data-perf="${product.performance || ''}" data-brand="${product.brand.toLowerCase()}" data-form="${product.formFactor || ''}">
-      <div class="product-image">
+      <div class="product-image${product.image ? ' has-photo' : ''}">
         ${badgeHTML}
+        ${imageContent}
         <span class="product-img-icon">${product.icon}</span>
       </div>
       <div class="product-body">

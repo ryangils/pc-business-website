@@ -135,7 +135,9 @@
             <!-- Gallery -->
             <div class="detail-gallery">
               <div class="detail-main-image">
-                <span class="detail-icon">${product.icon}</span>
+                ${product.image
+                  ? `<img src="${product.image}" alt="${product.name}" style="width:100%;height:100%;object-fit:cover;border-radius:inherit;" />`
+                  : `<span class="detail-icon">${product.icon}</span>`}
               </div>
               <div class="detail-thumbs">
                 <div class="detail-thumb active">${product.icon}</div>
