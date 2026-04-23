@@ -7,15 +7,17 @@ Run with:
   python app.py
 
 Set FLASK_DEBUG=1 in the environment to enable debug mode (development only).
+Set DATABASE_URL to the SQLite file path (default: cyberforge.db).
 Set email configuration environment variables:
   MAIL_SERVER, MAIL_PORT, MAIL_USERNAME, MAIL_PASSWORD
 """
 
-import json
 import logging
 import os
+import sqlite3
 from datetime import datetime
-from flask import Flask, request, jsonify, send_from_directory
+
+from flask import Flask, g, request, jsonify, send_from_directory
 from flask_cors import CORS
 from flask_mail import Mail, Message
 
@@ -37,9 +39,35 @@ mail = Mail(app)
 logging.basicConfig(level=logging.INFO, format="%(asctime)s  %(levelname)s  %(message)s")
 logger = logging.getLogger(__name__)
 
-# In-memory stores (replace with a real DB in production)
-contact_submissions: list[dict] = []
-booking_submissions: list[dict] = []
+# ─── Database ─────────────────────────────────────────────────────────────────
+
+_DEFAULT_DB = os.path.join(os.path.dirname(__file__), "cyberforge.db")
+
+
+def get_db() -> sqlite3.Connection:
+    """Return the per-request SQLite connection, creating it if needed."""
+    db_path = app.config.get("DATABASE_URL", os.environ.get("DATABASE_URL", _DEFAULT_DB))
+    if "db" not in g:
+        g.db = sqlite3.connect(db_path)
+        g.db.row_factory = sqlite3.Row
+    return g.db
+
+
+@app.teardown_appcontext
+def close_db(e=None) -> None:
+    db = g.pop("db", None)
+    if db is not None:
+        db.close()
+
+
+def init_db() -> None:
+    """Create tables from schema.sql if they don't exist yet."""
+    schema_path = os.path.join(os.path.dirname(__file__), "schema.sql")
+    with app.app_context():
+        db = get_db()
+        with open(schema_path) as f:
+            db.executescript(f.read())
+        db.commit()
 
 
 # ─── Static site ──────────────────────────────────────────────────────────────
@@ -64,16 +92,15 @@ def contact():
     if missing:
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
 
-    entry = {
-        "id": len(contact_submissions) + 1,
-        "timestamp": datetime.utcnow().isoformat(),
-        "name": data["name"],
-        "email": data["email"],
-        "subject": data["subject"],
-        "message": data["message"],
-    }
-    contact_submissions.append(entry)
-    logger.info("Contact submission #%d from %s", entry["id"], entry["email"])
+    timestamp = datetime.utcnow().isoformat()
+    db = get_db()
+    cursor = db.execute(
+        "INSERT INTO contacts (timestamp, name, email, subject, message) VALUES (?, ?, ?, ?, ?)",
+        (timestamp, data["name"], data["email"], data["subject"], data["message"]),
+    )
+    db.commit()
+    entry_id = cursor.lastrowid
+    logger.info("Contact submission #%d from %s", entry_id, data["email"])
 
     # Send email to admin
     try:
@@ -93,12 +120,12 @@ Message:
 {data['message']}
 
 ---
-Submitted at: {entry['timestamp']}
+Submitted at: {timestamp}
         """
         mail.send(msg)
-        logger.info("Email sent to %s for submission #%d", RECIPIENT_EMAIL, entry["id"])
+        logger.info("Email sent to %s for submission #%d", RECIPIENT_EMAIL, entry_id)
     except Exception as e:
-        logger.error("Failed to send email for submission #%d: %s", entry["id"], str(e))
+        logger.error("Failed to send email for submission #%d: %s", entry_id, str(e))
 
     return jsonify({"success": True, "message": "Thank you! We'll reply within 24 hours."}), 200
 
@@ -113,30 +140,37 @@ def booking():
     if missing:
         return jsonify({"error": f"Missing fields: {', '.join(missing)}"}), 400
 
-    entry = {
-        "id": len(booking_submissions) + 1,
-        "timestamp": datetime.utcnow().isoformat(),
-        "name": data["name"],
-        "email": data["email"],
-        "phone": data.get("phone", ""),
-        "device": data["device"],
-        "service": data["service"],
-        "issue": data["issue"],
-        "preferred_date": data["date"],
-        "preferred_time": data["time"],
-        "notes": data.get("notes", ""),
-    }
-    booking_submissions.append(entry)
+    timestamp = datetime.utcnow().isoformat()
+    db = get_db()
+    cursor = db.execute(
+        """INSERT INTO bookings
+           (timestamp, name, email, phone, device, service, issue,
+            preferred_date, preferred_time, notes)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            timestamp,
+            data["name"],
+            data["email"],
+            data.get("phone", ""),
+            data["device"],
+            data["service"],
+            data["issue"],
+            data["date"],
+            data["time"],
+            data.get("notes", ""),
+        ),
+    )
+    db.commit()
+    entry_id = cursor.lastrowid
     logger.info(
         "Booking #%d from %s — service: %s on %s %s",
-        entry["id"], entry["email"], entry["service"],
-        entry["preferred_date"], entry["preferred_time"],
+        entry_id, data["email"], data["service"], data["date"], data["time"],
     )
 
     # Send email to admin
     try:
         msg = Message(
-            subject=f"New Booking Request #{entry['id']}",
+            subject=f"New Booking Request #{entry_id}",
             recipients=[RECIPIENT_EMAIL],
             reply_to=data["email"]
         )
@@ -158,16 +192,16 @@ Notes:
 {data.get('notes', 'None')}
 
 ---
-Submitted at: {entry['timestamp']}
+Submitted at: {timestamp}
         """
         mail.send(msg)
-        logger.info("Email sent to %s for booking #%d", RECIPIENT_EMAIL, entry["id"])
+        logger.info("Email sent to %s for booking #%d", RECIPIENT_EMAIL, entry_id)
     except Exception as e:
-        logger.error("Failed to send email for booking #%d: %s", entry["id"], str(e))
+        logger.error("Failed to send email for booking #%d: %s", entry_id, str(e))
 
     return jsonify({
         "success": True,
-        "booking_id": entry["id"],
+        "booking_id": entry_id,
         "message": "Booking confirmed! We'll contact you shortly.",
     }), 200
 
@@ -176,11 +210,19 @@ Submitted at: {entry['timestamp']}
 
 @app.route("/api/admin/contacts", methods=["GET"])
 def admin_contacts():
-    return jsonify(contact_submissions), 200
+    rows = get_db().execute(
+        "SELECT id, timestamp, name, email, subject, message FROM contacts ORDER BY id"
+    ).fetchall()
+    return jsonify([dict(r) for r in rows]), 200
 
 @app.route("/api/admin/bookings", methods=["GET"])
 def admin_bookings():
-    return jsonify(booking_submissions), 200
+    rows = get_db().execute(
+        """SELECT id, timestamp, name, email, phone, device, service, issue,
+                  preferred_date, preferred_time, notes
+             FROM bookings ORDER BY id"""
+    ).fetchall()
+    return jsonify([dict(r) for r in rows]), 200
 
 
 # ─── API: Products (served from JS in the browser, but also available here) ──
@@ -228,14 +270,18 @@ def get_product(product_id: str):
 
 @app.route("/api/health", methods=["GET"])
 def health():
+    db = get_db()
+    contact_count = db.execute("SELECT COUNT(*) FROM contacts").fetchone()[0]
+    booking_count = db.execute("SELECT COUNT(*) FROM bookings").fetchone()[0]
     return jsonify({
         "status": "ok",
         "timestamp": datetime.utcnow().isoformat(),
-        "contact_count": len(contact_submissions),
-        "booking_count": len(booking_submissions),
+        "contact_count": contact_count,
+        "booking_count": booking_count,
     }), 200
 
 
 if __name__ == "__main__":
+    init_db()
     debug = os.environ.get("FLASK_DEBUG", "0") == "1"
     app.run(debug=debug, port=5000, host="0.0.0.0")
