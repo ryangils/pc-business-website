@@ -6,23 +6,33 @@ Run with:
     pytest tests/
 """
 
-import pytest
-import sys
 import os
+import sys
+import tempfile
+
+import pytest
 
 # Ensure the backend package is importable
 sys.path.insert(0, os.path.dirname(os.path.dirname(__file__)))
 
-from app import app as flask_app, contact_submissions, booking_submissions
+from app import app as flask_app, init_db
 
 
 # ─── Fixtures ─────────────────────────────────────────────────────────────────
 
 @pytest.fixture
 def app():
+    db_fd, db_path = tempfile.mkstemp(suffix=".db")
     flask_app.config["TESTING"] = True
     flask_app.config["MAIL_SUPPRESS_SEND"] = True
+    flask_app.config["DATABASE_URL"] = db_path
+
+    init_db()
+
     yield flask_app
+
+    os.close(db_fd)
+    os.unlink(db_path)
 
 
 @pytest.fixture
@@ -31,13 +41,21 @@ def client(app):
 
 
 @pytest.fixture(autouse=True)
-def clear_submissions():
-    """Reset in-memory stores before each test."""
-    contact_submissions.clear()
-    booking_submissions.clear()
+def clear_submissions(app):
+    """Wipe DB tables before and after each test."""
+    with app.app_context():
+        from app import get_db
+        db = get_db()
+        db.execute("DELETE FROM contacts")
+        db.execute("DELETE FROM bookings")
+        db.commit()
     yield
-    contact_submissions.clear()
-    booking_submissions.clear()
+    with app.app_context():
+        from app import get_db
+        db = get_db()
+        db.execute("DELETE FROM contacts")
+        db.execute("DELETE FROM bookings")
+        db.commit()
 
 
 # ─── Health check ─────────────────────────────────────────────────────────────
@@ -96,8 +114,9 @@ class TestContactEndpoint:
 
     def test_valid_contact_stores_submission(self, client):
         client.post("/api/contact", json=VALID_CONTACT)
-        assert len(contact_submissions) == 1
-        entry = contact_submissions[0]
+        data = client.get("/api/admin/contacts").get_json()
+        assert len(data) == 1
+        entry = data[0]
         assert entry["name"] == VALID_CONTACT["name"]
         assert entry["email"] == VALID_CONTACT["email"]
         assert entry["subject"] == VALID_CONTACT["subject"]
@@ -106,12 +125,14 @@ class TestContactEndpoint:
     def test_contact_assigns_sequential_ids(self, client):
         client.post("/api/contact", json=VALID_CONTACT)
         client.post("/api/contact", json=VALID_CONTACT)
-        assert contact_submissions[0]["id"] == 1
-        assert contact_submissions[1]["id"] == 2
+        data = client.get("/api/admin/contacts").get_json()
+        assert data[0]["id"] == 1
+        assert data[1]["id"] == 2
 
     def test_contact_stores_timestamp(self, client):
         client.post("/api/contact", json=VALID_CONTACT)
-        assert "timestamp" in contact_submissions[0]
+        data = client.get("/api/admin/contacts").get_json()
+        assert "timestamp" in data[0]
 
     def test_missing_name_returns_400(self, client):
         data = {k: v for k, v in VALID_CONTACT.items() if k != "name"}
@@ -158,7 +179,8 @@ class TestContactEndpoint:
     def test_multiple_submissions_accumulate(self, client):
         for i in range(3):
             client.post("/api/contact", json={**VALID_CONTACT, "subject": f"Sub {i}"})
-        assert len(contact_submissions) == 3
+        data = client.get("/api/admin/contacts").get_json()
+        assert len(data) == 3
 
 
 # ─── Booking form ─────────────────────────────────────────────────────────────
@@ -194,8 +216,9 @@ class TestBookingEndpoint:
 
     def test_valid_booking_stores_submission(self, client):
         client.post("/api/booking", json=VALID_BOOKING)
-        assert len(booking_submissions) == 1
-        entry = booking_submissions[0]
+        data = client.get("/api/admin/bookings").get_json()
+        assert len(data) == 1
+        entry = data[0]
         assert entry["name"] == VALID_BOOKING["name"]
         assert entry["email"] == VALID_BOOKING["email"]
         assert entry["device"] == VALID_BOOKING["device"]
@@ -207,30 +230,36 @@ class TestBookingEndpoint:
     def test_booking_stores_optional_phone(self, client):
         data = {**VALID_BOOKING, "phone": "555-1234"}
         client.post("/api/booking", json=data)
-        assert booking_submissions[0]["phone"] == "555-1234"
+        entry = client.get("/api/admin/bookings").get_json()[0]
+        assert entry["phone"] == "555-1234"
 
     def test_booking_defaults_phone_to_empty(self, client):
         client.post("/api/booking", json=VALID_BOOKING)
-        assert booking_submissions[0]["phone"] == ""
+        entry = client.get("/api/admin/bookings").get_json()[0]
+        assert entry["phone"] == ""
 
     def test_booking_stores_optional_notes(self, client):
         data = {**VALID_BOOKING, "notes": "Please call first."}
         client.post("/api/booking", json=data)
-        assert booking_submissions[0]["notes"] == "Please call first."
+        entry = client.get("/api/admin/bookings").get_json()[0]
+        assert entry["notes"] == "Please call first."
 
     def test_booking_defaults_notes_to_empty(self, client):
         client.post("/api/booking", json=VALID_BOOKING)
-        assert booking_submissions[0]["notes"] == ""
+        entry = client.get("/api/admin/bookings").get_json()[0]
+        assert entry["notes"] == ""
 
     def test_booking_assigns_sequential_ids(self, client):
         client.post("/api/booking", json=VALID_BOOKING)
         client.post("/api/booking", json=VALID_BOOKING)
-        assert booking_submissions[0]["id"] == 1
-        assert booking_submissions[1]["id"] == 2
+        data = client.get("/api/admin/bookings").get_json()
+        assert data[0]["id"] == 1
+        assert data[1]["id"] == 2
 
     def test_booking_stores_timestamp(self, client):
         client.post("/api/booking", json=VALID_BOOKING)
-        assert "timestamp" in booking_submissions[0]
+        entry = client.get("/api/admin/bookings").get_json()[0]
+        assert "timestamp" in entry
 
     def test_missing_name_returns_400(self, client):
         data = {k: v for k, v in VALID_BOOKING.items() if k != "name"}
