@@ -12,7 +12,7 @@ const PRODUCTS = {
       badge: 'HOT',
       badgeClass: 'badge-hot',
       icon: '🖥️',
-      image: 'https://images.unsplash.com/photo-1593640408182-31c228b38f44?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1547394765-185e1e68f34e?auto=format&fit=crop&w=600&q=80',
       price: 2499,
       oldPrice: 2899,
       desc: 'The ultimate gaming powerhouse built for 4K dominance. Zero compromise.',
@@ -203,7 +203,7 @@ const PRODUCTS = {
       badge: 'NEW',
       badgeClass: 'badge-new',
       icon: '📦',
-      image: 'https://images.unsplash.com/photo-1616509091215-57bbece36b14?auto=format&fit=crop&w=600&q=80',
+      image: 'https://images.unsplash.com/photo-1562219959-b7c97f24ac79?auto=format&fit=crop&w=600&q=80',
       price: 89,
       oldPrice: null,
       desc: 'Mid-tower with 4 pre-installed ARGB fans and stunning panoramic glass.',
@@ -334,6 +334,13 @@ const PRODUCTS = {
   ]
 };
 
+/* ---- Image error handler: hide broken img and show emoji fallback ---- */
+function handleImageError(img) {
+  img.style.display = 'none';
+  const imageContainer = img.closest('.product-image');
+  if (imageContainer) imageContainer.classList.remove('has-photo');
+}
+
 /* ---- Get product by id ---- */
 function getProductById(id) {
   return [...PRODUCTS.pcs, ...PRODUCTS.cases].find(p => p.id === id) || null;
@@ -372,7 +379,7 @@ function renderProductCard(product) {
   }
 
   const imageContent = product.image
-    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="product-img-photo" onerror="this.closest('.product-image').classList.remove('has-photo')">`
+    ? `<img src="${product.image}" alt="${product.name}" loading="lazy" class="product-img-photo" onerror="handleImageError(this)">`
     : '';
 
   return `

@@ -8,6 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCartBadge();
   initFadeIn();
   initFormHandlers();
+  updateCopyrightYear();
 });
 
 /* ---- Navbar: active page + scroll effect + mobile toggle ---- */
@@ -132,6 +133,12 @@ async function handleFormSubmit(form, endpoint, successMsg) {
   } finally {
     if (btn) { btn.disabled = false; btn.textContent = btn.dataset.label || 'Submit'; }
   }
+}
+
+/* ---- Update copyright year dynamically ---- */
+function updateCopyrightYear() {
+  const el = document.getElementById('footer-year');
+  if (el) el.textContent = new Date().getFullYear();
 }
 
 /* ---- Payment option toggle (cart page) ---- */

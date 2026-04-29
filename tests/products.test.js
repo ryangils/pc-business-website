@@ -339,3 +339,34 @@ describe('updateProductCount', () => {
     expect(() => updateProductCount('missing', 3)).not.toThrow();
   });
 });
+
+// ─── handleImageError ──────────────────────────────────────────────────────────
+
+describe('handleImageError', () => {
+  test('hides the broken image element', () => {
+    document.body.innerHTML = `
+      <div class="product-image has-photo">
+        <img class="product-img-photo" src="/bad.jpg" />
+        <span class="product-img-icon">🖥️</span>
+      </div>`;
+    const img = document.querySelector('.product-img-photo');
+    handleImageError(img);
+    expect(img.style.display).toBe('none');
+  });
+
+  test('removes has-photo class from parent so icon becomes visible', () => {
+    document.body.innerHTML = `
+      <div class="product-image has-photo">
+        <img class="product-img-photo" src="/bad.jpg" />
+      </div>`;
+    const img = document.querySelector('.product-img-photo');
+    handleImageError(img);
+    expect(document.querySelector('.product-image').classList.contains('has-photo')).toBe(false);
+  });
+
+  test('does not throw when img has no closest .product-image', () => {
+    document.body.innerHTML = `<img class="product-img-photo" src="/bad.jpg" />`;
+    const img = document.querySelector('.product-img-photo');
+    expect(() => handleImageError(img)).not.toThrow();
+  });
+});
