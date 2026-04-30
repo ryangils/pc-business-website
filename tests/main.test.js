@@ -284,3 +284,18 @@ describe('handleFormSubmit', () => {
     expect(toast.querySelector('strong').textContent).toBe('Success! ✅');
   });
 });
+
+// ─── updateCopyrightYear ───────────────────────────────────────────────────────
+
+describe('updateCopyrightYear', () => {
+  test('sets textContent of #footer-year to the current year', () => {
+    document.body.innerHTML = '<span id="footer-year">2024</span>';
+    updateCopyrightYear();
+    expect(document.getElementById('footer-year').textContent).toBe(String(new Date().getFullYear()));
+  });
+
+  test('does nothing when #footer-year element is absent', () => {
+    document.body.innerHTML = '';
+    expect(() => updateCopyrightYear()).not.toThrow();
+  });
+});

@@ -518,6 +518,10 @@ h1, h2, h3, h4, h5 {
 .product-img-photo { width: 100%; height: 100%; object-fit: cover; }
 .product-img-photo:not([src]),
 .product-img-photo[src=""] { display: none; }
+/* Graceful fallback: when image errors out (has-photo removed), show dark gradient + icon */
+.product-image:not(.has-photo) {
+  background: linear-gradient(135deg, #0d0d1f 0%, #1a1a36 60%, #0f0f2a 100%);
+}
 .product-img-icon {
   font-size: 4rem;
   position: relative;
